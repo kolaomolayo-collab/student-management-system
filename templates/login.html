@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Login | Student Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body class="login-page">
+
+    <div class="login-wrapper">
+
+        <div class="login-card">
+
+            <div class="logo">
+                SMS
+            </div>
+
+            <h1>
+                Student Management System
+            </h1>
+
+            <p class="login-subtitle">
+                Sign in to manage student records
+            </p>
+
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form method="POST">
+
+                <div class="input-group">
+
+                    <label>
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="login-note">
+
+                Demo account:
+
+                <strong>
+                    admin / admin123
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
