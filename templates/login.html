@@ -1,119 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Login | Student Management System</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Admin Login | Student Management System</title>
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
-
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-
 <body class="login-page">
-
     <div class="login-wrapper">
-
         <div class="login-card">
 
-            <div class="logo">
-                SMS
-            </div>
+            <div class="logo">SMS</div>
 
-            <h1>
-                Student Management System
-            </h1>
-
+            <h1>Welcome Back</h1>
             <p class="login-subtitle">
-                Sign in to manage student records
+                Sign in to manage your school's student records.
             </p>
 
-
             {% with messages = get_flashed_messages(with_categories=true) %}
-
                 {% if messages %}
-
                     {% for category, message in messages %}
-
                         <div class="message {{ category }}">
                             {{ message }}
                         </div>
-
                     {% endfor %}
-
                 {% endif %}
-
             {% endwith %}
 
-
-            <form method="POST">
+            <form method="POST" action="{{ url_for('login') }}">
 
                 <div class="input-group">
-
-                    <label>
-                        Username
-                    </label>
-
+                    <label for="email">Administrator Email</label>
                     <input
-                        type="text"
-                        name="username"
-                        placeholder="Enter username"
+                        id="email"
+                        type="email"
+                        name="email"
+                        placeholder="you@school.com"
+                        autocomplete="email"
                         required
                     >
-
                 </div>
 
-
                 <div class="input-group">
-
-                    <label>
-                        Password
-                    </label>
-
+                    <label for="password">Password</label>
                     <input
+                        id="password"
                         type="password"
                         name="password"
-                        placeholder="Enter password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
                         required
                     >
-
                 </div>
 
-
-                <button
-                    type="submit"
-                    class="primary-button"
-                >
+                <button type="submit" class="primary-button">
                     Sign In
                 </button>
-
             </form>
 
-
             <div class="login-note">
-
-                Demo account:
-
-                <strong>
-                    admin / admin123
-                </strong>
-
+                <p>Don't have a school account yet?</p>
+                <a href="{{ url_for('register') }}">Register Your School</a>
             </div>
 
         </div>
-
     </div>
-
 </body>
-
 </html>

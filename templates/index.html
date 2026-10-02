@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -10,20 +9,19 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Student Management System</title>
+    <title>
+        {{ current_user.school.name }} | Student Management System
+    </title>
 
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='style.css') }}"
     >
-
 </head>
-
 
 <body>
 
-    <!-- NAVBAR -->
-
+    <!-- NAVIGATION BAR -->
     <header class="navbar">
 
         <div class="brand-area">
@@ -33,24 +31,16 @@
             </div>
 
             <div>
-
-                <h1>
-                    Student Management System
-                </h1>
-
-                <span>
-                    Administration Dashboard
-                </span>
-
+                <h1>Student Management System</h1>
+                <span>School Administration Dashboard</span>
             </div>
 
         </div>
 
-
         <div class="nav-actions">
 
             <span>
-                Admin
+                {{ current_user.school.name }}
             </span>
 
             <a
@@ -67,48 +57,41 @@
 
     <main class="container">
 
-
         <!-- FLASH MESSAGES -->
-
         {% with messages = get_flashed_messages(with_categories=true) %}
-
             {% if messages %}
 
                 <div class="messages">
 
                     {% for category, message in messages %}
-
                         <div class="message {{ category }}">
                             {{ message }}
                         </div>
-
                     {% endfor %}
 
                 </div>
 
             {% endif %}
-
         {% endwith %}
 
 
-        <!-- HERO -->
-
+        <!-- WELCOME SECTION -->
         <section class="hero">
 
             <div>
 
                 <span class="tag">
-                    ADMIN DASHBOARD
+                    SCHOOL DASHBOARD
                 </span>
 
                 <h2>
-                    Manage your students
-                    in one place.
+                    Welcome to {{ current_user.school.name }}
                 </h2>
 
                 <p>
-                    Add, search, edit and delete
-                    student records from one dashboard.
+                    Manage your school's student records in one place.
+                    Register students, search records, update details,
+                    and keep your information organised.
                 </p>
 
             </div>
@@ -116,68 +99,50 @@
         </section>
 
 
-        <!-- STAT CARDS -->
-
+        <!-- DASHBOARD STATISTICS -->
         <section class="stats">
 
             <div class="stat-card">
 
-                <span>
-                    TOTAL STUDENTS
-                </span>
+                <span>TOTAL STUDENTS</span>
 
-                <strong>
-                    {{ total_students }}
-                </strong>
+                <strong>{{ total_students }}</strong>
 
-                <p>
-                    Registered students
-                </p>
+                <p>Students registered at your school</p>
 
             </div>
 
 
             <div class="stat-card">
 
-                <span>
-                    SYSTEM STATUS
-                </span>
+                <span>SYSTEM STATUS</span>
 
-                <strong class="online">
-                    Online
-                </strong>
+                <strong class="online">Online</strong>
 
-                <p>
-                    System is running
-                </p>
+                <p>Your dashboard is active</p>
 
             </div>
 
 
             <div class="stat-card">
 
-                <span>
-                    ACCOUNT
-                </span>
+                <span>SCHOOL ACCOUNT</span>
 
-                <strong>
-                    Admin
-                </strong>
+                <strong>Active</strong>
 
-                <p>
-                    Management access
-                </p>
+                <p>{{ current_user.full_name }}</p>
 
             </div>
 
         </section>
 
 
-        <!-- ADD / EDIT STUDENT -->
-
+        <!-- ADD OR EDIT STUDENT -->
         <section class="card">
 
             {% if edit_student %}
+
+                <!-- EDIT FORM -->
 
                 <div class="section-title">
 
@@ -185,12 +150,11 @@
                         UPDATE RECORD
                     </span>
 
-                    <h2>
-                        Edit Student
-                    </h2>
+                    <h2>Edit Student</h2>
 
                     <p>
-                        Update {{ edit_student.full_name }}'s information.
+                        Update the information for
+                        {{ edit_student.full_name }}.
                     </p>
 
                 </div>
@@ -207,14 +171,16 @@
 
                     <div class="input-group">
 
-                        <label>
+                        <label for="edit-full-name">
                             Full Name
                         </label>
 
                         <input
+                            id="edit-full-name"
                             type="text"
                             name="full_name"
                             value="{{ edit_student.full_name }}"
+                            maxlength="120"
                             required
                         >
 
@@ -223,14 +189,16 @@
 
                     <div class="input-group">
 
-                        <label>
-                            Email
+                        <label for="edit-email">
+                            Email Address
                         </label>
 
                         <input
+                            id="edit-email"
                             type="email"
                             name="email"
                             value="{{ edit_student.email }}"
+                            maxlength="254"
                             required
                         >
 
@@ -239,14 +207,16 @@
 
                     <div class="input-group">
 
-                        <label>
-                            Phone
+                        <label for="edit-phone">
+                            Phone Number
                         </label>
 
                         <input
+                            id="edit-phone"
                             type="text"
                             name="phone"
                             value="{{ edit_student.phone }}"
+                            maxlength="30"
                             required
                         >
 
@@ -255,14 +225,16 @@
 
                     <div class="input-group">
 
-                        <label>
+                        <label for="edit-course">
                             Course
                         </label>
 
                         <input
+                            id="edit-course"
                             type="text"
                             name="course"
                             value="{{ edit_student.course }}"
+                            maxlength="120"
                             required
                         >
 
@@ -271,14 +243,16 @@
 
                     <div class="input-group">
 
-                        <label>
+                        <label for="edit-department">
                             Department
                         </label>
 
                         <input
+                            id="edit-department"
                             type="text"
                             name="department"
                             value="{{ edit_student.department }}"
+                            maxlength="120"
                             required
                         >
 
@@ -308,6 +282,7 @@
 
             {% else %}
 
+                <!-- ADD FORM -->
 
                 <div class="section-title">
 
@@ -315,12 +290,11 @@
                         NEW RECORD
                     </span>
 
-                    <h2>
-                        Add Student
-                    </h2>
+                    <h2>Add a Student</h2>
 
                     <p>
-                        Enter the student's information below.
+                        Register a new student at
+                        {{ current_user.school.name }}.
                     </p>
 
                 </div>
@@ -334,14 +308,16 @@
 
                     <div class="input-group">
 
-                        <label>
+                        <label for="full-name">
                             Full Name
                         </label>
 
                         <input
+                            id="full-name"
                             type="text"
                             name="full_name"
                             placeholder="e.g. John Doe"
+                            maxlength="120"
                             required
                         >
 
@@ -350,14 +326,16 @@
 
                     <div class="input-group">
 
-                        <label>
-                            Email
+                        <label for="student-email">
+                            Email Address
                         </label>
 
                         <input
+                            id="student-email"
                             type="email"
                             name="email"
-                            placeholder="e.g. john@email.com"
+                            placeholder="e.g. john@example.com"
+                            maxlength="254"
                             required
                         >
 
@@ -366,14 +344,16 @@
 
                     <div class="input-group">
 
-                        <label>
-                            Phone
+                        <label for="student-phone">
+                            Phone Number
                         </label>
 
                         <input
+                            id="student-phone"
                             type="text"
                             name="phone"
                             placeholder="e.g. 08012345678"
+                            maxlength="30"
                             required
                         >
 
@@ -382,14 +362,16 @@
 
                     <div class="input-group">
 
-                        <label>
+                        <label for="student-course">
                             Course
                         </label>
 
                         <input
+                            id="student-course"
                             type="text"
                             name="course"
                             placeholder="e.g. Computer Science"
+                            maxlength="120"
                             required
                         >
 
@@ -398,14 +380,16 @@
 
                     <div class="input-group">
 
-                        <label>
+                        <label for="student-department">
                             Department
                         </label>
 
                         <input
+                            id="student-department"
                             type="text"
                             name="department"
                             placeholder="e.g. Science"
+                            maxlength="120"
                             required
                         >
 
@@ -427,7 +411,6 @@
 
 
         <!-- STUDENT RECORDS -->
-
         <section class="card">
 
             <div class="records-header">
@@ -435,15 +418,14 @@
                 <div>
 
                     <span class="tag">
-                        STUDENTS
+                        STUDENT DIRECTORY
                     </span>
 
-                    <h2>
-                        Student Records
-                    </h2>
+                    <h2>Student Records</h2>
 
                     <p>
-                        Search and manage registered students.
+                        View and manage students belonging
+                        to your school.
                     </p>
 
                 </div>
@@ -456,10 +438,11 @@
                 >
 
                     <input
-                        type="text"
+                        type="search"
                         name="search"
                         value="{{ search }}"
                         placeholder="Search students..."
+                        aria-label="Search student records"
                     >
 
                     <button
@@ -494,7 +477,6 @@
                         <thead>
 
                             <tr>
-
                                 <th>#</th>
                                 <th>Student</th>
                                 <th>Email</th>
@@ -502,7 +484,6 @@
                                 <th>Course</th>
                                 <th>Department</th>
                                 <th>Actions</th>
-
                             </tr>
 
                         </thead>
@@ -537,11 +518,9 @@
                                     </td>
 
                                     <td>
-
                                         <span class="badge">
                                             {{ student.department }}
                                         </span>
-
                                     </td>
 
                                     <td>
@@ -570,7 +549,7 @@
                                                 <button
                                                     type="submit"
                                                     class="delete-button"
-                                                    onclick="return confirmDelete('{{ student.full_name }}')"
+                                                    onclick="return confirmDelete({{ student.full_name | tojson }})"
                                                 >
                                                     Delete
                                                 </button>
@@ -600,14 +579,25 @@
                         +
                     </div>
 
-                    <h3>
-                        No students found
-                    </h3>
+                    {% if search %}
 
-                    <p>
-                        Add your first student using
-                        the form above.
-                    </p>
+                        <h3>No matching students</h3>
+
+                        <p>
+                            Try another name, email, course
+                            or department.
+                        </p>
+
+                    {% else %}
+
+                        <h3>No students registered yet</h3>
+
+                        <p>
+                            Add your first student using
+                            the form above.
+                        </p>
+
+                    {% endif %}
 
                 </div>
 
@@ -616,14 +606,15 @@
         </section>
 
 
+        <!-- FOOTER -->
         <footer>
 
             <span>
-                Student Management System
+                {{ current_user.school.name }}
             </span>
 
             <span>
-                Built with Flask
+                Student Management System
             </span>
 
         </footer>
