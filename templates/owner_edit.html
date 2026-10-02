@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Edit School | Student Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body class="login-page">
+
+    <div class="login-wrapper">
+
+        <div class="login-card">
+
+            <div class="logo">
+                SMS
+            </div>
+
+            <h1>
+                Edit School Account
+            </h1>
+
+            <p class="login-subtitle">
+                Update the school and administrator details.
+            </p>
+
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'owner_edit_school',
+                    school_id=school.id
+                ) }}"
+            >
+
+                <div class="input-group">
+
+                    <label for="school-name">
+                        School Name
+                    </label>
+
+                    <input
+                        id="school-name"
+                        type="text"
+                        name="school_name"
+                        value="{{ school.name }}"
+                        maxlength="150"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="admin-name">
+                        Administrator Full Name
+                    </label>
+
+                    <input
+                        id="admin-name"
+                        type="text"
+                        name="admin_name"
+                        value="{{ admin.full_name if admin else '' }}"
+                        maxlength="120"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="admin-email">
+                        Administrator Email
+                    </label>
+
+                    <input
+                        id="admin-email"
+                        type="email"
+                        name="email"
+                        value="{{ admin.email if admin else '' }}"
+                        maxlength="254"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Save Changes
+                </button>
+
+            </form>
+
+
+            <div class="login-note">
+
+                <a
+                    href="{{ url_for('owner_dashboard') }}"
+                    class="clear-button"
+                >
+                    ← Back to Owner Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

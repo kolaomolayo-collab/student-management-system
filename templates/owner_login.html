@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>School Login | Student Management System</title>
+    <title>Owner Login | Student Management System</title>
 
     <link
         rel="stylesheet"
@@ -30,11 +30,11 @@
             </div>
 
             <h1>
-                Welcome Back
+                Owner Login
             </h1>
 
             <p class="login-subtitle">
-                Sign in to manage your school's student records.
+                Private administration area.
             </p>
 
 
@@ -57,21 +57,20 @@
 
             <form
                 method="POST"
-                action="{{ url_for('login') }}"
+                action="{{ url_for('owner_login') }}"
             >
 
                 <div class="input-group">
 
                     <label for="email">
-                        Administrator Email
+                        Owner Email
                     </label>
 
                     <input
                         id="email"
                         type="email"
                         name="email"
-                        placeholder="you@school.com"
-                        autocomplete="email"
+                        placeholder="Owner email"
                         required
                     >
 
@@ -81,15 +80,14 @@
                 <div class="input-group">
 
                     <label for="password">
-                        Password
+                        Owner Password
                     </label>
 
                     <input
                         id="password"
                         type="password"
                         name="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
+                        placeholder="Owner password"
                         required
                     >
 
@@ -100,23 +98,10 @@
                     type="submit"
                     class="primary-button"
                 >
-                    Sign In
+                    Owner Sign In
                 </button>
 
             </form>
-
-
-            <div class="login-note">
-
-                <p>
-                    Need an account for your school?
-                </p>
-
-                <strong>
-                    Contact the administrator for approval.
-                </strong>
-
-            </div>
 
         </div>
 

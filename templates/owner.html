@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Owner Dashboard | Student Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+    <header class="navbar">
+
+        <div class="brand-area">
+
+            <div class="logo small">
+                SMS
+            </div>
+
+            <div>
+
+                <h1>
+                    Student Management System
+                </h1>
+
+                <span>
+                    Owner Administration
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-actions">
+
+            <span>
+                Platform Owner
+            </span>
+
+            <a
+                href="{{ url_for('owner_logout') }}"
+                class="logout-button"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="messages">
+
+                    {% for category, message in messages %}
+
+                        <div class="message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <section class="hero">
+
+            <div>
+
+                <span class="tag">
+                    PRIVATE OWNER PANEL
+                </span>
+
+                <h2>
+                    Approve and manage schools.
+                </h2>
+
+                <p>
+                    Create accounts only for schools that
+                    you have approved.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <span>
+                    APPROVED SCHOOLS
+                </span>
+
+                <strong>
+                    {{ schools|length }}
+                </strong>
+
+                <p>
+                    Active school accounts
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    ACCESS
+                </span>
+
+                <strong class="online">
+                    Private
+                </strong>
+
+                <p>
+                    Owner-only administration
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    REGISTRATION
+                </span>
+
+                <strong>
+                    Approval
+                </strong>
+
+                <p>
+                    No public registration
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
+            <div class="section-title">
+
+                <span class="tag">
+                    APPROVE SCHOOL
+                </span>
+
+                <h2>
+                    Create School Account
+                </h2>
+
+                <p>
+                    Use this form after a school has paid
+                    and you have approved its account.
+                </p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('owner_create_school') }}"
+                class="student-form"
+            >
+
+                <div class="input-group">
+
+                    <label for="school-name">
+                        School Name
+                    </label>
+
+                    <input
+                        id="school-name"
+                        type="text"
+                        name="school_name"
+                        placeholder="e.g. Bright Future Academy"
+                        maxlength="150"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="admin-name">
+                        Administrator Full Name
+                    </label>
+
+                    <input
+                        id="admin-name"
+                        type="text"
+                        name="admin_name"
+                        placeholder="Administrator's name"
+                        maxlength="120"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="admin-email">
+                        Administrator Email
+                    </label>
+
+                    <input
+                        id="admin-email"
+                        type="email"
+                        name="email"
+                        placeholder="admin@school.com"
+                        maxlength="254"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="school-password">
+                        School Login Password
+                    </label>
+
+                    <input
+                        id="school-password"
+                        type="password"
+                        name="password"
+                        placeholder="At least 8 characters"
+                        minlength="8"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Approve & Create Account
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section class="card">
+
+            <div class="section-title">
+
+                <span class="tag">
+                    SCHOOL ACCOUNTS
+                </span>
+
+                <h2>
+                    Approved Schools
+                </h2>
+
+                <p>
+                    Schools currently registered on the platform.
+                </p>
+
+            </div>
+
+
+            {% if schools %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>#</th>
+                                <th>School</th>
+                                <th>Administrator</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Manage</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for school in schools %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+
+
+                                    <td>
+                                        <strong>
+                                            {{ school.name }}
+                                        </strong>
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if school.admins %}
+
+                                            {{ school.admins[0].full_name }}
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if school.admins %}
+
+                                            {{ school.admins[0].email }}
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="badge">
+                                            Active
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <a
+                                            href="{{ url_for(
+                                                'owner_edit_school',
+                                                school_id=school.id
+                                            ) }}"
+                                            class="edit-button"
+                                        >
+                                            Manage
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        No schools approved yet
+                    </h3>
+
+                    <p>
+                        Create the first school account above.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <footer>
+
+            <span>
+                Private Owner Dashboard
+            </span>
+
+            <span>
+                Student Management System
+            </span>
+
+        </footer>
+
+    </main>
+
+</body>
+
+</html>
